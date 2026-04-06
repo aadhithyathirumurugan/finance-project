@@ -75,9 +75,6 @@ const DashboardPage = () => {
         <div className="summary-card income">
           <div className="summary-card-header">
             <span className="summary-card-label">Total Income</span>
-            <div className="summary-card-icon">
-              <TrendingUp size={18} />
-            </div>
           </div>
           <div className="summary-card-value" style={{ color: "#16a34a" }}>
             {formatCurrency(summary?.totalIncome)}
@@ -88,9 +85,6 @@ const DashboardPage = () => {
         <div className="summary-card expense">
           <div className="summary-card-header">
             <span className="summary-card-label">Total Expenses</span>
-            <div className="summary-card-icon">
-              <TrendingDown size={18} />
-            </div>
           </div>
           <div className="summary-card-value" style={{ color: "#dc2626" }}>
             {formatCurrency(summary?.totalExpense)}
@@ -101,9 +95,6 @@ const DashboardPage = () => {
         <div className="summary-card balance">
           <div className="summary-card-header">
             <span className="summary-card-label">Net Balance</span>
-            <div className="summary-card-icon">
-              <Wallet size={18} />
-            </div>
           </div>
           <div className="summary-card-value" style={{ color: "#2563eb" }}>
             {formatCurrency(summary?.netBalance)}
@@ -114,9 +105,6 @@ const DashboardPage = () => {
         <div className="summary-card records">
           <div className="summary-card-header">
             <span className="summary-card-label">Total Records</span>
-            <div className="summary-card-icon">
-              <FileText size={18} />
-            </div>
           </div>
           <div className="summary-card-value" style={{ color: "#0ea5e9" }}>
             {summary?.totalRecords || 0}
