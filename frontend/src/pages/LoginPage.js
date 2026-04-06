@@ -8,6 +8,8 @@ import { TrendingUp, Shield, PieChart, Wallet, ArrowRight } from "lucide-react";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { login } = useAuth();
@@ -19,13 +21,15 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const res = await authAPI.login({ email, password });
-      // Pass the entire response object — AuthContext.login expects a single object
+      const res = isLogin
+        ? await authAPI.login({ email, password })
+        : await authAPI.register({ name, email, password, role: "VIEWER" });
+        
       login(res.data);
-      toast.success(`Welcome, ${res.data.name}!`);
+      toast.success(isLogin ? `Welcome, ${res.data.name}!` : "Account created successfully!");
       navigate("/dashboard");
     } catch (err) {
-      const msg = err.response?.data?.message || "Invalid email or password";
+      const msg = err.response?.data?.message || (isLogin ? "Invalid email or password" : "Registration failed");
       setError(msg);
     } finally {
       setLoading(false);
@@ -281,12 +285,28 @@ const LoginPage = () => {
               <span style={styles.mobileBrandText}>FinTrack</span>
             </div>
 
-            <h2 style={styles.formTitle}>Welcome Back</h2>
-            <p style={styles.formSubtitle}>Enter your credentials to access your account</p>
+            <h2 style={styles.formTitle}>{isLogin ? "Welcome Back" : "Create Account"}</h2>
+            <p style={styles.formSubtitle}>
+              {isLogin ? "Enter your credentials to access your account" : "Sign up to start tracking your finances"}
+            </p>
 
             {error && <div style={styles.errorBox}>{error}</div>}
 
             <form onSubmit={handleSubmit}>
+              {!isLogin && (
+                <div style={styles.fieldGroup}>
+                  <label style={styles.label}>Full Name</label>
+                  <input
+                    className="login-input"
+                    style={styles.input}
+                    type="text"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required={!isLogin}
+                  />
+                </div>
+              )}
               <div style={styles.fieldGroup}>
                 <label style={styles.label}>Email Address</label>
                 <input
@@ -324,12 +344,21 @@ const LoginPage = () => {
                 disabled={loading}
               >
                 {loading ? (
-                  "Signing in..."
+                  isLogin ? "Signing in..." : "Creating account..."
                 ) : (
-                  <>Sign In <ArrowRight size={16} style={{ marginLeft: "6px" }} /></>
+                  <>{isLogin ? "Sign In" : "Sign Up"} <ArrowRight size={16} style={{ marginLeft: "6px" }} /></>
                 )}
               </button>
             </form>
+
+            <div style={{ textAlign: "center", marginTop: "16px" }}>
+              <span 
+                style={{ fontSize: "13px", color: "#a8926a", cursor: "pointer", fontWeight: "600" }} 
+                onClick={() => { setIsLogin(!isLogin); setError(""); }}
+              >
+                {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
+              </span>
+            </div>
 
             {/* Divider */}
             <div style={styles.divider}>

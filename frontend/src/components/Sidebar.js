@@ -22,7 +22,6 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <div className="sidebar-brand-icon">₹</div>
         <div className="sidebar-brand-text">
           <span className="sidebar-brand-name">FinTrack</span>
           <span className="sidebar-brand-sub">Finance Manager</span>
