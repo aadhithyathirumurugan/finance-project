@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import { dashboardAPI } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
-import {
-  TrendingUp,
-  TrendingDown,
-  Wallet,
-  FileText,
-} from "lucide-react";
+
 
 const DashboardPage = () => {
   const [summary, setSummary] = useState(null);
